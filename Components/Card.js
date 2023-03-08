@@ -18,7 +18,8 @@ const Card = ({ item, onCardPressed }) => {
         perspective={1000}
         flipHorizontal={true}
         flipVertical={false}
-        clickable={false}
+        clickable={true}
+        onPress = {handleCardPress}
         onFlipEnd={() => {}}>
         <View style={[styles.card, styles.cardFront]}>
           <Text style={styles.cardText}>{item.id}</Text>
@@ -46,10 +47,10 @@ const styles = StyleSheet.create({
     borderColor: '#000',
   },
   cardFront: {
-    backgroundColor: '#fff',
+    backgroundColor: '#3F497F',
   },
   cardBack: {
-    backgroundColor: '#e0e0e0',
+    backgroundColor: '#F7C04A',
   },
   cardText: {
     fontSize: 24,
