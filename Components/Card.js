@@ -1,17 +1,22 @@
-import React, { useState } from 'react';
-import { StyleSheet, View, Text } from 'react-native';
-import FlipCard from 'react-native-flip-card';
+import React, { useState, useEffect } from "react";
+import { View, Text, StyleSheet } from "react-native";
+import FlipCard from "react-native-flip-card";
 
-const Card = ({ item, onCardPressed }) => {
+const Card = ({ item, isMatched, handleCardPress, selectedCards, moves }) => {
   const [isFlipped, setIsFlipped] = useState(false);
 
-  const handleCardPress = () => {
-    setIsFlipped(true);
-    onCardPressed(item.id, item.value);
+  useEffect(() => {
+    if (isMatched) {
+      setIsFlipped(true);
+    }
+  }, [isMatched]);
+
+  const handlePress = () => {
+    handleCardPress(item.id, item.value);
   };
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, item.isMatched && styles.matched]}>
       <FlipCard
         flip={isFlipped}
         friction={6}
@@ -19,12 +24,18 @@ const Card = ({ item, onCardPressed }) => {
         flipHorizontal={true}
         flipVertical={false}
         clickable={true}
-        onPress = {handleCardPress}
-        onFlipEnd={() => {}}>
+        onPress={handlePress}
+      >
         <View style={[styles.card, styles.cardFront]}>
-          <Text style={styles.cardText}>{item.id}</Text>
+          <Text style={styles.cardText}></Text>
         </View>
-        <View style={[styles.card, styles.cardBack]}>
+        <View
+          style={[
+            styles.card,
+            styles.cardBack,
+            isMatched && styles.matchedCard,
+          ]}
+        >
           <Text style={styles.cardText}>{item.value}</Text>
         </View>
       </FlipCard>
@@ -34,6 +45,7 @@ const Card = ({ item, onCardPressed }) => {
 
 const styles = StyleSheet.create({
   container: {
+  
     margin: 5,
   },
   card: {
@@ -47,14 +59,17 @@ const styles = StyleSheet.create({
     borderColor: '#000',
   },
   cardFront: {
-    backgroundColor: '#3F497F',
+    backgroundColor: "white",
   },
   cardBack: {
-    backgroundColor: '#F7C04A',
+    backgroundColor: "green",
+  },
+  matchedCard: {
+    borderColor: "red",
   },
   cardText: {
-    fontSize: 24,
-    fontWeight: 'bold',
+    fontSize: 32,
+    fontWeight: "bold",
   },
 });
 

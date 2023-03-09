@@ -5,16 +5,21 @@ import GameBoard from './Components/GameBoard';
 
 const App = () => {
   const [size, setSize] = useState(4);
-  const [data, setData] = useState(Array.from({ length: size * size / 2 }, (_, i) => i + 1));
-
+  const initialData = Array.from({ length: size * size / 2 }, (_, i) => i + 1)
+  const [data, setData] = useState(initialData);
+  
+  
   const handleReset = () => {
-    setData(Array.from({ length: size * size / 2 }, (_, i) => i + 1));
+    const shuffledData = Array.from({ length: size * size / 2 }, (_, i) => i + 1)
+      .concat(Array.from({ length: size * size / 2 }, (_, i) => i + 1))
+      .sort(() => Math.random() - 0.5);
+    setData(shuffledData);
   };
 
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Memory Card Game</Text>
-      <GameBoard size={size} data={data} />
+      <GameBoard size={size}  />
       <View style={styles.buttonContainer}>
         <Button title="Reset" onPress={handleReset} />
        
