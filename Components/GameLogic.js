@@ -1,17 +1,13 @@
+import React, { useState } from 'react';
 
+const GameLogic = ({ numCards, setMoves }) => {
+  const [cards, setCards] = useState(generateCards(numCards));
+  const [selectedCards, setSelectedCards] = useState([]);
+  const [moves, setMovesState] = useState(0);
+  const [roundsPlayed, setRoundsPlayed] = useState(0);
+  const [matches, setMatches] = useState(0);
 
-class GameLogic {
-  constructor(numCards) {
-    this.numCards = numCards;
-    this.cards = this.generateCards(numCards);
-    this.selectedCards = [];
-    this.moves = 0;
-    this.roundsPlayed = 0;
-    this.matches = 0;
-    this.setMoves = null;
-  }
-
-  generateCards(shufflePairs = false) {
+  function generateCards(shufflePairs = false) {
     const numPairs = 4;
     const values = Array.from({ length: numPairs }, (_, i) => i + 1); // Possible values for the matching pairs
     const pairs = [];
@@ -38,54 +34,50 @@ class GameLogic {
     return cards;
   }
 
-  checkMatch() {
-    const [firstCard, secondCard] = this.selectedCards;
+  function checkMatch() {
+    const [firstCard, secondCard] = selectedCards;
     if (firstCard.value === secondCard.value) {
       firstCard.matched = true;
       secondCard.matched = true;
       firstCard.isMatched = true;
       secondCard.isMatched = true;
-      this.selectedCards = [];
-      this.matches++;
+      setSelectedCards([]);
+      setMatches(matches + 1);
     } else {
       setTimeout(() => {
         firstCard.flipped = false;
         secondCard.flipped = false;
-        this.selectedCards = [];
+        setSelectedCards([]);
       }, 1000);
     }
-    this.moves++;
-    
-    this.setMoves(this.moves);
+    setMovesState(moves + 1);
+    setMoves(moves + 1);
   }
 
-  handleCardPress(id) {
-    const card = this.cards.find((card) => card.id === id);
+  function handleCardPress(id) {
+    const card = cards.find((card) => card.id === id);
     if (card.flipped || card.matched) {
       return;
     }
     card.flipped = true;
-    this.selectedCards.push(card);
-    if (this.selectedCards.length === 2) {
-      this.checkMatch();
+    setSelectedCards([...selectedCards, card]);
+    if (selectedCards.length === 1) {
+      checkMatch();
     }
-    this.moves++;
-    setMoves(this.moves);
-  }
-  
-  
-  
-
-  isGameFinished() {
-    return this.cards.every((card) => card.matched);
   }
 
-  resetGame() {
-    this.cards = this.generateCards(this.numCards, true);
-    this.selectedCards = [];
-    this.moves = 0;
-    this.roundsPlayed++;
+  function isGameFinished() {
+    return cards.every((card) => card.matched);
   }
-}
+
+  function resetGame() {
+    setCards(generateCards(numCards, true));
+    setSelectedCards([]);
+    setMovesState(0);
+    setRoundsPlayed(roundsPlayed + 1);
+  }
+
+  return null; // replace this with your actual component UI
+};
 
 export default GameLogic;

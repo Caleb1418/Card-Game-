@@ -58,7 +58,7 @@ class GameLogic {
         this.selectedCards = [];
       }, 1000);
     }
-    this.moves++;
+    this.moves + 1;
     this.setMoves(this.moves);
   }
 

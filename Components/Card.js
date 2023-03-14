@@ -2,6 +2,17 @@ import React, { useState, useEffect } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import FlipCard from "react-native-flip-card";
 
+const data = [
+  { id: 1, value: 'A' },
+  { id: 2, value: 'B' },
+  { id: 3, value: 'C' },
+  { id: 4, value: 'D' },
+  { id: 5, value: 'A' },
+  { id: 6, value: 'B' },
+  { id: 7, value: 'C' },
+  { id: 8, value: 'D' },
+];
+
 const Card = ({ item, isMatched, handleCardPress, selectedCards, moves }) => {
   const [isFlipped, setIsFlipped] = useState(false);
 
